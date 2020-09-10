@@ -1,0 +1,57 @@
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+import requests
+
+
+from app.config import Config
+
+UA = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+
+
+proxies = {
+    'https': "http://10.0.86.147:8080",
+    'http': "http://10.0.86.147:8080"
+}
+
+SET_PROXY = False
+
+def http_req(url, method = 'get', **kwargs):
+    kwargs.setdefault('verify', False)
+    kwargs.setdefault('timeout', (10.1, 30.1))
+    kwargs.setdefault('allow_redirects', False)
+
+    headers = kwargs.get("headers", {})
+    headers.setdefault("User-Agent", UA)
+
+    kwargs["headers"] = headers
+
+    if SET_PROXY:
+        kwargs["proxies"] = proxies
+
+    conn =   getattr(requests, method)(url, **kwargs)
+
+    return conn
+
+
+from pymongo import MongoClient
+
+
+class ConnMongo(object):
+    def __new__(self):
+        if not hasattr(self, 'instance'):
+            self.instance = super(ConnMongo, self).__new__(self)
+        return self.instance
+
+
+    def __init__(self):
+        self.conn = MongoClient(Config.MONGO_URL)
+
+
+def conn_db(collection, db_name = None):
+    conn = ConnMongo().conn
+    if db_name:
+        return conn[db_name][collection]
+
+    else:
+        return conn[Config.MONGO_DB][collection]

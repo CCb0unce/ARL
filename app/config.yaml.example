@@ -1,0 +1,37 @@
+
+CELERY:
+  BROKER_URL : "amqp://arl:arlpassword@localhost:5672/arlv2host"
+
+
+MONGO:
+  URI : 'mongodb://127.0.0.1:27017/'
+  DB : 'arl'
+
+
+RISKIQ:
+  EMAIL: "n1un1u2019@qq.com"
+  KEY: "03da3c29cce5152a536bae332f7b03a288154b37a13b93921225d3ade49c9b4c"
+
+
+GEOIP:
+  CITY: '/data/GeoLite2/GeoLite2-City.mmdb'
+  ASN: '/data/GeoLite2/GeoLite2-ASN.mmdb'
+
+
+
+FOFA:
+  EMAIL: ""
+  KEY: ""
+
+
+ARL:
+  AUTH: true
+  API_KEY: ""
+  BLACK_IPS:
+    - 127.0.0.0/8
+    - 0.0.0.0/8
+    - 172.16.0.0/12
+    - 100.0.0.0/8
+    #- 10.0.0.0/8
+    #- 192.168.0.0/16
+

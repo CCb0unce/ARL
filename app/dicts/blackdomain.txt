@@ -1,0 +1,17 @@
+.ime.galileo.baidu.com
+.upsiloncdn.net
+.aliyunwaf.com
+.qzone.qq.com
+.114.qq.com
+.docs.qq.com
+.cloud.tc.qq.com
+.tcdn.qq.com
+.photo.store.qq.com
+.shop.dianping.com
+.baijia.baidu.com
+.cloudapp.azure.com
+.bastion.azure.com
+.waf.huaweicloud.com
+.fe.baidu.com
+.hiphotos.baidu.com
+.openwebgame.qq.com

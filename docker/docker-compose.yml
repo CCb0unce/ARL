@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+    web:
+        image: arl_worker:v2
+        container_name: arl_web
+        restart: unless-stopped
+        depends_on:
+          - mongodb
+        ports:
+          - "5003:80"
+        volumes:
+          - ./arl_web.log:/code/arl_web.log
+          - ./config-docker.yaml:/code/app/config.yaml
+          - ./image:/code/app/tmp_screenshot
+        entrypoint: ["sh", "-c", "nginx; gunicorn -b 0.0.0.0:5003 app.main:arl_app -w 3 --access-logfile arl_web.log"]
+        environment:
+          - LANG=en_US.UTF-8
+
+    worker:
+        image: arl_worker:v2
+        container_name: arl_worker
+        restart: unless-stopped
+        depends_on:
+          - mongodb
+          - rabbitmq
+        volumes:
+          - ./arl_worker.log:/code/arl_worker.log
+          - ./config-docker.yaml:/code/app/config.yaml
+          - ./image:/code/app/tmp_screenshot
+        entrypoint: ["sh", "-c", "celery -A app.celerytask.celery worker -l info -Q arltask -n arltask -c 2 -O fair -f arl_worker.log"]
+        environment:
+          - LANG=en_US.UTF-8
+
+    mongodb:
+        image: mongo:3.6-stretch
+        container_name: arl_mongodb
+        restart: always
+        volumes:
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        environment:
+          - MONGO_INITDB_DATABASE=arl
+          - MONGO_INITDB_ROOT_USERNAME=admin
+          - MONGO_INITDB_ROOT_PASSWORD=admin
+
+
+    rabbitmq:
+      image: rabbitmq:3-management-alpine
+      container_name: arl_rabbitmq
+      restart: always
+      environment:
+        - RABBITMQ_DEFAULT_PASS=arlpassword
+        - RABBITMQ_DEFAULT_USER=arl
+        - RABBITMQ_DEFAULT_VHOST=arlv2host
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "1M"
+          max-file: "10"
