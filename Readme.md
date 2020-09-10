@@ -6,27 +6,27 @@
 
 ### 系统要求
 
-目前暂不支持windows, mac和linux建议采用docker运行，系统配置最低2核4G
-由于自动资产发现过程中会有大量的的发包，建议采用云服务器可以带来更好的体验。
+目前暂不支持Windows。Linux和MAC建议采用Docker运行，系统配置最低2核4G。  
+由于自动资产发现过程中会有大量的的发包，建议采用云服务器可以带来更好的体验。  
 
-### docker 启动
+### Docker 启动
 拉取镜像
 
 ```
-docker pull 10.0.81.34/arl/arl_worker:v2
+docker pull docker pull tophant/arl
 ```
 
 修改`docker/docker-compose.yml` 中services web image 和 services worker image 对应的镜像地址。
 
 
 ```
-git clone git@git.tophant.com:TCC/ARLv2.git
-cd ARLv2/docker/
+git clone https://github.com/TophantTechnology/ARL
+cd ARL/docker/
 docker-compose up -d 
 ```
 
 ### 截图
-登录页面 默认用户名密码admin/arlpass
+登录页面，默认用户名密码admin/arlpass  
 ![登录页面](./image/login.png)
 
 任务页面
@@ -41,26 +41,27 @@ docker-compose up -d
 
 
 ### 任务选项说明
-| 编号 |      选项      |                       说明                       |
-| --- | -------------- | ------------------------------------------------ |
-| 1    | 任务名称        | 任务名称                                          |
-| 2    | 任务目标        | 任务目标，支持IP,IP段，域名,可一次性下发多个目标      |
-| 3    | 域名爆破类型    | 对域名爆破字典大小                                 |
-| 4    | 端口扫描类型    | 端口扫描常用端口数量                               |
-| 5    | 域名爆破        | 是否开启域名爆破                                   |
-| 6    | DNS字典智能生成 | 根据已有的域名生成字典进行爆破                      |
-| 7    | Riskiq 调用    | 利用[RiskIQ](https://community.riskiq.com/)  API进行查询域名                        |
-| 8    | ARL 历史查询    | 对arl历史任务结果进行查询用于本次任务                |
-| 9    | 端口扫描        | 是否开启端口扫描，不开启站点会默认探测80,443         |
-| 10   | 服务识别        | 是否进行服务识别，有可能会被防火墙拦截导致结果为空     |
-| 11   | 操作系统识别    | 是否进行操作系统识别，有可能会被防火墙拦截导致结果为空 |
-| 12   | Fofa IP查询    | 利用[Fofa](https://fofa.so/)  API进行查询域名                          |
-| 13   | SSL 证书获取    | 对端口进行SSL 证书获取                             |
-| 14   | 站点识别        | 对站点进行指纹识别                                 |
-| 15   | 搜索引擎调用    | 利用搜索引擎结果爬取对应的URL                       |
-| 16   | 站点爬虫        | 利用静态爬虫对站点进行爬取对应的URL                  |
-| 17   | 站点截图        | 对站点首页进行截图                                 |
-| 18   | 文件泄露        | 对站点进行文件泄露检测，会被WAF拦截                  |
+| 编号 |      选项      |                                       说明                                        |
+| --- | -------------- | -------------------------------------------------------------------------------- |
+| 1    | 任务名称        | 任务名称                                                                          |
+| 2    | 任务目标        | 任务目标，支持IP，IP段和域名。可一次性下发多个目标                                      |
+| 3    | 域名爆破类型    | 对域名爆破字典大小, 大字典：常用2万字典大小。测试：少数几个字典，常用于测试功能是否正常        |
+| 4    | 端口扫描类型    | ALL：全部端口，TOP1000：常用top 1000端口，TOP100：常用top 100端口，测试：少数几个端口 |
+| 5    | 域名爆破        | 是否开启域名爆破                                                                   |
+| 6    | DNS字典智能生成 | 根据已有的域名生成字典进行爆破                                                      |
+| 7    | Riskiq 调用    | 利用[RiskIQ](https://community.riskiq.com/)  API进行查询域名                       |
+| 8    | ARL 历史查询    | 对arl历史任务结果进行查询用于本次任务                                                |
+| 9    | 端口扫描        | 是否开启端口扫描，不开启站点会默认探测80,443                                         |
+| 10   | 服务识别        | 是否进行服务识别，有可能会被防火墙拦截导致结果为空                                     |
+| 11   | 操作系统识别    | 是否进行操作系统识别，有可能会被防火墙拦截导致结果为空                                 |
+| 12   | Fofa IP查询    | 利用[Fofa](https://fofa.so/)  API进行查询域名                                      |
+| 13   | SSL 证书获取    | 对端口进行SSL 证书获取                                                             |
+| 14   | 站点识别        | 对站点进行指纹识别                                                                 |
+| 15   | 搜索引擎调用    | 利用搜索引擎结果爬取对应的URL                                                       |
+| 16   | 站点爬虫        | 利用静态爬虫对站点进行爬取对应的URL                                                  |
+| 17   | 站点截图        | 对站点首页进行截图                                                                 |
+| 18   | 文件泄露        | 对站点进行文件泄露检测，会被WAF拦截                                                  |
+
 
 ### 配置参数说明
 
@@ -104,9 +105,9 @@ sudo apt-get install xfonts-wqy libfontconfig
 ```
 
 
-### 安装最新版nmap
+### 安装 Nmap
 
-#### ubuntu
+#### Ubuntu
 ```
 apt remove nmap
 apt remove ndiff
@@ -115,7 +116,7 @@ wget https://nmap.org/dist/nmap-7.80-1.x86_64.rpm
 alien -i nmap-7.80-1.x86_64.rpm
 ```
 
-#### centos
+#### CentOS
 ```
 rpm -vhU https://nmap.org/dist/nmap-7.80-1.x86_64.rpm
 ```
@@ -131,7 +132,7 @@ pip install docker-compose
 docker-compose up -d
 ```
 
-### 配置Geoip 数据库
+### 配置GeoIP 数据库
 
 由于官方政策更新请前往[maxmind](https://dev.maxmind.com/geoip/geoip2/geolite2/) 注册下载GeoLite2-City.tar.gz，GeoLite2-ASN.tar.gz 解压。  
 在config.yaml中配置好相关路径
@@ -139,5 +140,5 @@ docker-compose up -d
 
 ### 写在最后
 
-目前ARL仅仅只是完成了对资产的部分维度的发现和收集，自动发现过程中难免出现覆盖度不全、不精准、不合理等缺陷的地方还请谅解。 
-后面还有更多有意思的东西以及资产管理和监控部分敬请期待。
+目前ARL仅仅只是完成了对资产的部分维度的发现和收集，自动发现过程中难免出现覆盖度不全、不精准、不合理等缺陷的地方还请反馈至我们。  
+后续还有更多有意思的功能，如资产管理、监控部分等功能，敬请期待。 
